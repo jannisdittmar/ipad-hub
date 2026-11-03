@@ -98,6 +98,13 @@ body{background:#090a0e}
 @media(max-height:640px) and (min-width:741px){.wrap{padding:8px 12px 6px}.top{min-height:35px;margin-bottom:6px}.hero{height:29%;min-height:125px;margin-bottom:8px}.hero .card{padding:11px 15px}.clock{font-size:57px}.date{font-size:13px}.weather-main{font-size:37px}.forecast{font-size:10px;padding:5px}.home-grid{margin-bottom:8px}.home-tile{padding:11px 16px}.home-tile-header{font-size:18px}.home-actions{flex-basis:68px}.home-action{font-size:13px}.action-emoji{font-size:20px}}
 @media(max-width:740px){html,body{overflow:auto}.wrap{height:auto;min-height:100vh;overflow:visible}.hero{height:auto;max-height:none;display:block}.hero .card{height:auto;min-height:138px;margin-bottom:9px}.clockcard,.weathercard{width:100%}.home-grid{min-height:205px}.home-tile{padding:12px}.home-tile-header{font-size:16px}.home-preview{font-size:13px}.home-actions{min-height:85px}.home-action{font-size:12px}.action-emoji{font-size:20px}}
 @media (orientation:portrait) and (min-width:741px){html,body{overflow:auto}.wrap{height:auto;min-height:100vh;overflow:visible}.hero{height:220px}.home-grid{min-height:280px}.home-actions{min-height:90px}}
+
+/* Smart-Home-Geräteübersicht: keine Dummy-Schalter */
+.smartdevice{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;padding:14px 0;gap:9px;border-bottom:1px solid #373942}
+.smartdevice strong{font-size:17px}.smartdevice .hint{margin-top:5px;font-size:12px}.smartstatus{display:inline-block;padding:5px 8px;background:#30323b;border:1px solid #494b56;border-radius:12px;color:#c5c6cf;font-size:11px;white-space:nowrap}
+.smart-command{border:1px solid #41434e;background:#252730;border-radius:12px;padding:11px 14px;margin:7px 0;font-size:14px}
+@media(min-width:741px){.home-actions .home-action{font-size:12px}.home-actions .home-action .action-mini{font-size:9px}}
+@media(max-width:740px){.home-actions{gap:6px}.home-actions .home-action{font-size:10px;padding:4px}.home-actions .home-action .action-mini{font-size:8px}.smartdevice{display:block}.smartstatus{margin-top:8px}}
 </style>
 </head>
 <body>
@@ -109,12 +116,26 @@ body{background:#090a0e}
   <button class="home-tile list-tile" data-detail="tasks"><div class="home-tile-header"><span>✓ Aufgaben</span><span class="home-arrow">↗</span></div><div class="home-count" id="tasksSummaryCount">0 offen</div><div class="home-preview" id="tasksSummary">Noch keine Aufgaben</div><div class="tile-more">Aufgaben öffnen</div></button>
 </div>
 <div class="home-actions">
+  <button class="home-action" data-detail="smart"><span class="action-emoji">⌂</span><span>Smart Home</span><span class="action-mini">Geräteübersicht</span></button>
   <button class="home-action" data-detail="links"><span class="action-emoji">▦</span><span>Schnellzugriffe</span></button>
   <button class="home-action" data-detail="timer"><span class="action-emoji">◷</span><span>Timer</span><span class="action-mini" id="homeTimer">25:00</span></button>
   <button class="home-action" data-detail="stopwatch"><span class="action-emoji">⏱</span><span>Stoppuhr</span><span class="action-mini" id="homeStopwatch">00:00.0</span></button>
 </div>
 <div class="home-foot">iPad HUB <span>•</span> Deine Listen bleiben lokal auf diesem iPad gespeichert</div>
 </div>
+<div class="overlay detail-overlay" id="detail-smart"><div class="dialog detail-dialog">
+<div class="detail-top"><strong>⌂ Smart Home</strong><button type="button" class="weather-button close-detail" data-target="smart">✕ Schließen</button></div>
+<p class="hint">Deine Geräte sind bereits über Alexa steuerbar. Diese Übersicht zeigt deine vorhandenen Systeme; sie liest keine Live-Zustände aus und schaltet keine Geräte direkt.</p>
+<div class="smartdevice"><div><strong>💡 Philips Hue</strong><div class="hint">Bluetooth-Lampen · über Alexa verbunden</div></div><span class="smartstatus">Alexa</span></div>
+<div class="smartdevice"><div><strong>🔌 Smart Life</strong><div class="hint">Steckdosen · über Alexa verbunden</div></div><span class="smartstatus">Alexa</span></div>
+<div class="smartdevice"><div><strong>🔊 Echo Dot (5. Gen.)</strong><div class="hint">Sprachsteuerung für deine Lampen und Steckdosen</div></div><span class="smartstatus">Sprachsteuerung</span></div>
+<div class="sep"></div>
+<p class="hint"><strong>Beispiele für Sprachbefehle</strong></p>
+<div class="smart-command">„Alexa, schalte das Licht ein.“</div>
+<div class="smart-command">„Alexa, schalte alle Steckdosen aus.“</div>
+<p class="hint">Die genauen Gerätenamen hängen von deiner Alexa-Konfiguration ab. Dein Echo hört die Befehle, nicht dieses Dashboard.</p>
+<button class="action secondary" type="button" id="smartEditLinks">Eigene Schnellzugriffe bearbeiten</button>
+</div></div>
 <div class="overlay detail-overlay" id="detail-shopping"><div class="dialog detail-dialog"><div class="detail-top"><strong>Einkaufsliste</strong><button type="button" class="weather-button close-detail" data-target="shopping">✕ Schließen</button></div><section class="panel"><div class="card inner"><div class="heading"><h2>🛒 &nbsp;Einkaufsliste</h2><span class="count" id="shoppingCount">0 offen</span></div><form id="shoppingForm" class="addrow"><input class="field" id="shoppingInput" placeholder="Artikel hinzufügen" aria-label="Einkaufsartikel" maxlength="130" required><button class="action" type="submit">+ Hinzu</button></form><div id="shoppingList"></div></div></section></div></div>
 <div class="overlay detail-overlay" id="detail-tasks"><div class="dialog detail-dialog"><div class="detail-top"><strong>To-do-Liste</strong><button type="button" class="weather-button close-detail" data-target="tasks">✕ Schließen</button></div><section class="panel"><div class="card inner"><div class="heading"><h2>☑ &nbsp;To-do-Liste</h2><span class="count" id="tasksCount">0 offen</span></div><form id="tasksForm" class="addrow"><input class="field" id="tasksInput" placeholder="Aufgabe hinzufügen" aria-label="Aufgabe" maxlength="130" required><button class="action" type="submit">+ Hinzu</button></form><div id="tasksList"></div></div></section></div></div>
 <div class="overlay detail-overlay" id="detail-links"><div class="dialog detail-dialog"><div class="detail-top"><strong>Schnellzugriffe</strong><button type="button" class="weather-button close-detail" data-target="links">✕ Schließen</button></div><section class="panel linkpanel"><div class="card"><div class="heading"><h2>▦ &nbsp;Schnellzugriffe</h2><button class="weather-button" id="editLinks">Bearbeiten</button></div><div id="links" class="links"></div><div class="notice">Schnellzugriffe öffnen Webseiten oder Apps. Sie steuern nicht automatisch Geräte.</div></div></section></div></div>
@@ -175,6 +196,7 @@ function updateHomeSummary(which){var arr=which==='shopping'?shop:tasks,active=[
 function openDetail(which){show('detail-'+which,true);}
 var detailButtons=document.querySelectorAll('[data-detail]');for(var di=0;di<detailButtons.length;di++){detailButtons[di].onclick=function(){openDetail(this.getAttribute('data-detail'));};}
 var closeButtons=document.querySelectorAll('.close-detail');for(var ci=0;ci<closeButtons.length;ci++){closeButtons[ci].onclick=function(){show('detail-'+this.getAttribute('data-target'),false);};}
+el('smartEditLinks').onclick=function(){show('detail-smart',false);show('linksOverlay',true);};
 updateHomeSummary('shopping');updateHomeSummary('tasks');
 setInterval(function(){text(el('homeTimer'),el('timerDisplay').textContent);text(el('homeStopwatch'),el('stopwatchDisplay').textContent);},300);
 })();
